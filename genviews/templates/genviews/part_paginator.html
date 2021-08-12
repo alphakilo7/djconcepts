@@ -1,0 +1,44 @@
+{% if is_paginated %}
+<div class="text-center">
+    <div>
+        <nav aria-label="ListView Paginator" style="margin: 0 auto;">
+            <ul class="pagination pagination-sm justify-content-center" style="margin-bottom: 0;">
+                <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}"><a href="{% if page_obj.has_previous %}{% url 'products:view_all' %}?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% endif %}" class="page-link">First</a></li>
+                <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}"><a href="{% if page_obj.has_previous %}{% url 'products:view_all' %}?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% endif %}" class="page-link">Previous</a></li>
+                {% for pg in page_obj.paginator.page_range %}
+                <li class="page-item" aria-current="page"><a class="page-link" href="{% url 'products:view_all' %}?page={{ pg }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">{{ pg }}</a></li>
+                {% endfor %}
+                <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}"><a href="{% if page_obj.has_next %}{% url 'products:view_all' %}?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% endif %}" class="page-link">Next</a></li>
+                <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}"><a href="{% if page_obj.has_next %}{% url 'products:view_all' %}?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% endif %}" class="page-link">Last</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="m-4" style="display: inline-block">
+        <form method="GET" class="row g-3">
+            <div class="col-auto">
+                <input class="form-control form-control-sm" style="display: inline-block;" type="text" placeholder="search" name="q" value="{{ request.GET.q }}">
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-sm btn-primary" style="display: inline-block;" type="submit">Search!</button>
+            </div>
+        </form>
+    </div>
+    <div style="display: inline-block;">
+        <form method="GET" class="row g-3" action="{% url 'products:view_all' %}?{% if request.GET.q %}q={{ request.GET.q }}{% endif %}">
+            <div class="col-auto">
+                <select class="form-control form-control-sm" name="sort">
+                    <option value="price" {% if request.GET.sort == "price" %}selected{%endif%}>Price (Ascending)</option>
+                    <option value="priced" {% if request.GET.sort == "priced" %}selected{%endif%}>Price (Descending)</option>
+                    <option value="title" {% if request.GET.sort == "title" %}selected{%endif%}>Title (Ascending)</option>
+                    <option value="titled" {% if request.GET.sort == "titled" %}selected{%endif%}>Title (Descending)</option>
+                    <option value="id" {% if request.GET.sort == "id" %}selected{%endif%}>Id (Ascending)</option>
+                    <option value="idd" {% if request.GET.sort == "idd" %}selected{%endif%}>Id (Descending)</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-sm btn-primary" type="submit">Sort!</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}

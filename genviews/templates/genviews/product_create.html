@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Add a Product Product{% endblock title %}
+
+{% block style %}
+        td, th {
+            padding: 15px;
+        }
+{% endblock style %}
+
+{% block main %}
+    <div class="card m-4">
+        <div class="card-body">
+            <h3>Add a Product</h3>
+            <form method="POST" action="{% url 'products:create' %}">
+                <table>
+                {{ form.as_table }}
+                </table>
+                {% csrf_token %}
+                <button class="btn btn-sm btn-success" type="submit">Add Product</button>
+                <button class="btn btn-sm btn-warning" type="reset">Reset</button>
+                <a href="{{ request.META.HTTP_REFERER }}"><button class="btn btn-sm btn-danger" type="button">Back</button></a>
+            </form>
+        </div>
+    </div>
+{% endblock main %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Product '{{ product.title }}'{% endblock title %}
+
+{% block main %}
+    <div class="card m-4">
+        <div class="card-body">
+            <h3>Delete {{ product.title }}</h3>
+            <div>
+                <form method="POST" action="{% url 'products:delete' product.id %}">
+                    <h4 class="text-danger">Do you really want to delete product '{{ product.title }}'?</h4>
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-danger" type="submit">Yes</button>
+                    <a href="{% url 'products:view_one' product.id %}"><button class="btn btn-sm btn-success" type="button">No</button></a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Product Detail - {{ product.title }}{% endblock title %}
+
+{% block main %}
+    <div class="card m-4">
+        <div class="card-body">
+            <h3>Product Details</h3>
+            <hr>
+            <div class="product-details">
+                <h4>{{ product.title }}</h4>
+                <p class="h6 my-4">{{ product.tagline }}</p>
+                <p>₹ {{ product.price }}</p>
+                {% if user.is_superuser %}
+                <a href="{% url 'products:update' product.id %}"><button class="btn btn-success">Edit</button></a>
+                <a href="{% url 'products:delete' product.id %}"><button class="btn btn-danger">Delete</button></a>
+                {% endif%}
+            </div>
+        </div>
+    </div>
+{% endblock main %}

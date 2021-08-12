@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Products All{% endblock title %}
+
+{% block style %}
+        .shadow {
+            box-shadow: 0 0 10px 15px grey;
+        }
+{% endblock style %}
+
+{% block main %}
+    <div class="card my-3 shadow">
+        <div class="card-body">
+        {% include "genviews/part_paginator.html" %}
+        {% if products %}
+            {% for product in products %}
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5><a href="{% url 'products:view_one' product.id %}">{{ product.title }}</a></h5>
+                    <span>{{ product.tagline|truncatechars:50 }}</span><br>
+                    <span>Price: ₹ {{ product.price }}</span>
+                </div>
+            </div>
+            <div class="my-3"></div>
+            {% endfor %}
+        {% else %}
+            {% if request.GET.q %}
+            <h2><span class="text-danger">404</span>The term '{{ request.GET.q }}' didn't return any results</h2>
+            {% else %}
+            <h2>No Products available in the database</h2>
+            {% endif %}
+        {% endif %}
+        </div>
+    </div>
+{% endblock main %}
